@@ -26,8 +26,22 @@
   </div>
 </section>
     <section id="screen-setup" class="screen">
-      <h1>Setup (placeholder)</h1>
-    </section>
+  <h2 data-i18n="howManyPlayers">How many players?</h2>
+  <div class="player-count-picker mt-16">
+    <button class="count-btn" id="btn-count-minus">&minus;</button>
+    <span class="count-display" id="player-count">4</span>
+    <button class="count-btn count-btn-plus" id="btn-count-plus">+</button>
+  </div>
+  <div id="player-inputs" class="player-inputs mt-16"></div>
+  <div id="recent-players-section" class="recent-section mt-16" style="display:none;">
+    <div class="recent-header">
+      <span class="recent-label" data-i18n="recentPlayers">Recent Players</span>
+      <button class="btn-text-small" id="btn-clear-recent" data-i18n="clearRecent">Clear</button>
+    </div>
+    <div id="recent-players-list" class="recent-chips"></div>
+  </div>
+  <button class="btn btn-primary w-full mt-24" id="btn-start-game" data-i18n="startGame" disabled>Start Game</button>
+</section>
     <section id="screen-deal" class="screen">
       <h1>Deal (placeholder)</h1>
     </section>

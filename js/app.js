@@ -22,7 +22,122 @@ var WelcomeScreen = {
   }
 };
 
-var SetupScreen = { render: function() {}, init: function() {} };
+var SetupScreen = {
+  count: 4,
+  MIN: 3,
+  MAX: 10,
+
+  render: function() {
+    document.querySelectorAll('#screen-setup [data-i18n]').forEach(function(el) {
+      el.textContent = I18n.t(el.dataset.i18n);
+    });
+    this._renderInputs();
+    this._renderRecent();
+    this._validateForm();
+  },
+
+  init: function() {
+    var self = this;
+    document.getElementById('btn-count-minus').addEventListener('click', function() {
+      if (self.count > self.MIN) { self.count--; Sounds.play('tap'); self._updateCount(); }
+    });
+    document.getElementById('btn-count-plus').addEventListener('click', function() {
+      if (self.count < self.MAX) { self.count++; Sounds.play('tap'); self._updateCount(); }
+    });
+    document.getElementById('btn-clear-recent').addEventListener('click', function() {
+      if (confirm(I18n.t('confirm'))) { Storage.clearRecentPlayers(); self._renderRecent(); }
+    });
+    document.getElementById('btn-start-game').addEventListener('click', function() {
+      Sounds.play('confirm');
+      self._startGame();
+    });
+  },
+
+  _updateCount: function() {
+    document.getElementById('player-count').textContent = this.count;
+    this._renderInputs();
+    this._renderRecent();
+    this._validateForm();
+  },
+
+  _renderInputs: function() {
+    var container = document.getElementById('player-inputs');
+    var existing = container.querySelectorAll('input');
+    var existingValues = Array.from(existing).map(function(inp) { return inp.value; });
+    var self = this;
+
+    container.textContent = '';
+    for (var i = 0; i < this.count; i++) {
+      var row = document.createElement('div');
+      row.className = 'player-input-row';
+      var span = document.createElement('span');
+      span.textContent = '\uD83D\uDC64';
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.dataset.index = i;
+      input.placeholder = I18n.t('enterName');
+      input.maxLength = 20;
+      input.autocomplete = 'off';
+      if (existingValues[i]) input.value = existingValues[i];
+      input.addEventListener('input', function() { self._validateForm(); });
+      row.appendChild(span);
+      row.appendChild(input);
+      container.appendChild(row);
+    }
+  },
+
+  _renderRecent: function() {
+    var recent = Storage.getRecentPlayers();
+    var section = document.getElementById('recent-players-section');
+    var list = document.getElementById('recent-players-list');
+    var self = this;
+
+    if (recent.length === 0) { section.style.display = 'none'; return; }
+
+    section.style.display = 'block';
+    list.textContent = '';
+    recent.forEach(function(name) {
+      var chip = document.createElement('span');
+      chip.className = 'recent-chip';
+      chip.textContent = name;
+      chip.addEventListener('click', function() {
+        Sounds.play('tap');
+        self._fillNextEmpty(name);
+      });
+      list.appendChild(chip);
+    });
+  },
+
+  _fillNextEmpty: function(name) {
+    var inputs = document.querySelectorAll('#player-inputs input');
+    for (var i = 0; i < inputs.length; i++) {
+      if (!inputs[i].value.trim()) {
+        inputs[i].value = name;
+        this._validateForm();
+        return;
+      }
+    }
+  },
+
+  _validateForm: function() {
+    var inputs = document.querySelectorAll('#player-inputs input');
+    var names = Array.from(inputs).map(function(i) { return i.value.trim(); });
+    var allFilled = names.every(function(n) { return n.length > 0; });
+    var allUnique = new Set(names).size === names.length;
+    document.getElementById('btn-start-game').disabled = !(allFilled && allUnique);
+  },
+
+  _startGame: function() {
+    var inputs = document.querySelectorAll('#player-inputs input');
+    var names = Array.from(inputs).map(function(i) { return i.value.trim(); });
+
+    Game.loadWords().then(function() {
+      Game.startNew(names);
+      App.showScreen('deal');
+      DealScreen.start();
+    });
+  }
+};
 var DealScreen = { render: function() {}, init: function() {}, start: function() {} };
 var DiscussScreen = { render: function() {}, init: function() {} };
 var VoteScreen = { render: function() {}, init: function() {} };
