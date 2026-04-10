@@ -427,3 +427,33 @@ body {
 
 .score-row.whiteman-row { background: rgba(108, 92, 231, 0.1); }
 .score-row.whiteman-row .score-row-name::after { content: ' \uD83C\uDFAD'; }
+
+/* === Leaderboard Screen === */
+.leaderboard-list { width: 100%; max-width: 320px; }
+
+.lb-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 15px;
+}
+
+.lb-row:nth-child(odd) { background: rgba(0,0,0,0.04); }
+
+.lb-rank {
+  font-weight: 900;
+  font-size: 18px;
+  min-width: 28px;
+  color: var(--purple);
+}
+
+.lb-row:nth-child(1) .lb-rank { color: #f1c40f; }
+.lb-row:nth-child(2) .lb-rank { color: #95a5a6; }
+.lb-row:nth-child(3) .lb-rank { color: #e17055; }
+
+.lb-name { flex: 1; font-weight: 600; }
+.lb-score { font-weight: 700; color: var(--teal); }
+
+.lb-empty { color: #b2bec3; font-size: 14px; padding: 32px 0; }

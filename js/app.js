@@ -427,7 +427,63 @@ var GameOverScreen = {
     });
   }
 };
-var LeaderboardScreen = { render: function() {}, init: function() {} };
+var LeaderboardScreen = {
+  render: function() {
+    document.querySelectorAll('#screen-leaderboard [data-i18n]').forEach(function(el) {
+      el.textContent = I18n.t(el.dataset.i18n);
+    });
+
+    var list = document.getElementById('leaderboard-list');
+    var board = Storage.getLeaderboard();
+
+    if (board.length === 0) {
+      list.textContent = '';
+      var empty = document.createElement('p');
+      empty.className = 'lb-empty';
+      empty.textContent = I18n.t('noScoresYet');
+      list.appendChild(empty);
+      return;
+    }
+
+    list.textContent = '';
+    board.forEach(function(entry, i) {
+      var row = document.createElement('div');
+      row.className = 'lb-row';
+
+      var rank = document.createElement('span');
+      rank.className = 'lb-rank';
+      rank.textContent = i + 1;
+
+      var name = document.createElement('span');
+      name.className = 'lb-name';
+      name.textContent = entry.name;
+
+      var score = document.createElement('span');
+      score.className = 'lb-score';
+      score.textContent = entry.score + ' ' + I18n.t('points');
+
+      row.appendChild(rank);
+      row.appendChild(name);
+      row.appendChild(score);
+      list.appendChild(row);
+    });
+  },
+
+  init: function() {
+    var self = this;
+    document.getElementById('btn-clear-leaderboard').addEventListener('click', function() {
+      if (confirm(I18n.t('confirm'))) {
+        Storage.clearLeaderboard();
+        self.render();
+      }
+    });
+    document.getElementById('btn-lb-back').addEventListener('click', function() {
+      Sounds.play('tap');
+      App.showScreen('welcome');
+      WelcomeScreen.render();
+    });
+  }
+};
 
 // === App Controller ===
 
