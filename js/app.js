@@ -353,7 +353,80 @@ var ResultScreen = {
     }
   }
 };
-var GameOverScreen = { render: function() {}, init: function() {} };
+var GameOverScreen = {
+  lastPlayers: [],
+
+  render: function() {
+    document.querySelectorAll('#screen-gameover [data-i18n]').forEach(function(el) {
+      el.textContent = I18n.t(el.dataset.i18n);
+    });
+
+    var isTeamWin = !Game.isWhitemanWinner();
+    var emoji = document.getElementById('gameover-emoji');
+    var title = document.getElementById('gameover-title');
+    var subtitle = document.getElementById('gameover-subtitle');
+
+    if (isTeamWin) {
+      emoji.textContent = '\uD83C\uDFC6';
+      title.textContent = I18n.t('teamWins');
+    } else {
+      emoji.textContent = '\uD83D\uDE08';
+      title.textContent = I18n.t('whitemanWins');
+    }
+    subtitle.textContent = I18n.t('theWhitemanWas') + ' ' + Game.state.players[Game.state.whitemanIndex];
+
+    var scoresDiv = document.getElementById('gameover-scores');
+    scoresDiv.textContent = '';
+    var whitemanName = Game.state.players[Game.state.whitemanIndex];
+    var sortedPlayers = Object.entries(Game.state.scores).sort(function(a, b) { return b[1] - a[1]; });
+    sortedPlayers.forEach(function(entry) {
+      var name = entry[0];
+      var score = entry[1];
+      var row = document.createElement('div');
+      var isWM = name === whitemanName;
+      row.className = 'score-row' + (isWM ? ' whiteman-row' : '');
+
+      var nameSpan = document.createElement('span');
+      nameSpan.className = 'score-row-name';
+      nameSpan.textContent = name;
+
+      var scoreSpan = document.createElement('span');
+      scoreSpan.className = 'score-row-points';
+      scoreSpan.textContent = score + ' ' + I18n.t('points');
+
+      row.appendChild(nameSpan);
+      row.appendChild(scoreSpan);
+      scoresDiv.appendChild(row);
+    });
+
+    this.lastPlayers = Game.state.players.slice();
+    Game.endGame();
+  },
+
+  init: function() {
+    var self = this;
+    document.getElementById('btn-play-again').addEventListener('click', function() {
+      Sounds.play('tap');
+      if (self.lastPlayers.length > 0) {
+        Game.loadWords().then(function() {
+          Game.startNew(self.lastPlayers);
+          App.showScreen('deal');
+          DealScreen.start();
+        });
+      }
+    });
+    document.getElementById('btn-new-game-go').addEventListener('click', function() {
+      Sounds.play('tap');
+      App.showScreen('setup');
+      SetupScreen.render();
+    });
+    document.getElementById('btn-main-menu').addEventListener('click', function() {
+      Sounds.play('tap');
+      App.showScreen('welcome');
+      WelcomeScreen.render();
+    });
+  }
+};
 var LeaderboardScreen = { render: function() {}, init: function() {} };
 
 // === App Controller ===

@@ -79,8 +79,16 @@
   </div>
 </section>
     <section id="screen-gameover" class="screen">
-      <h1>Game Over (placeholder)</h1>
-    </section>
+  <div class="gameover-emoji" id="gameover-emoji"></div>
+  <h2 class="gameover-title" id="gameover-title"></h2>
+  <p class="gameover-subtitle" id="gameover-subtitle"></p>
+  <div class="score-table mt-16" id="gameover-scores"></div>
+  <div class="flex-col gap-12 w-full mt-24">
+    <button class="btn btn-primary" id="btn-play-again" data-i18n="playAgain">Play Again</button>
+    <button class="btn btn-secondary" id="btn-new-game-go" data-i18n="newGameBtn">New Game</button>
+    <button class="btn btn-secondary" id="btn-main-menu" data-i18n="mainMenu">Main Menu</button>
+  </div>
+</section>
     <section id="screen-leaderboard" class="screen">
       <h1>Leaderboard (placeholder)</h1>
     </section>
