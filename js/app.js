@@ -138,7 +138,76 @@ var SetupScreen = {
     });
   }
 };
-var DealScreen = { render: function() {}, init: function() {}, start: function() {} };
+var DealScreen = {
+  dealQueue: [],
+  currentIndex: 0,
+  revealed: false,
+
+  render: function() {
+    document.querySelectorAll('#screen-deal [data-i18n]').forEach(function(el) {
+      el.textContent = I18n.t(el.dataset.i18n);
+    });
+    if (this.dealQueue.length > 0) {
+      var playerIdx = this.dealQueue[this.currentIndex];
+      document.getElementById('deal-player-name').textContent = Game.state.players[playerIdx];
+      document.getElementById('deal-word').textContent = Game.getWordForPlayer(playerIdx);
+    }
+  },
+
+  init: function() {
+    var self = this;
+    document.getElementById('deal-card').addEventListener('click', function() {
+      self._toggleReveal();
+    });
+    document.getElementById('btn-got-it').addEventListener('click', function() {
+      Sounds.play('confirm');
+      self._next();
+    });
+  },
+
+  start: function() {
+    this.dealQueue = Game.getDealOrder();
+    this.currentIndex = 0;
+    this._showCurrentPlayer();
+  },
+
+  _showCurrentPlayer: function() {
+    this.revealed = false;
+    document.getElementById('deal-card-front').style.display = 'flex';
+    document.getElementById('deal-card-back').style.display = 'none';
+    document.getElementById('btn-got-it').disabled = true;
+
+    var playerIdx = this.dealQueue[this.currentIndex];
+    document.getElementById('deal-player-name').textContent = Game.state.players[playerIdx];
+    document.getElementById('deal-word').textContent = Game.getWordForPlayer(playerIdx);
+    this.render();
+  },
+
+  _toggleReveal: function() {
+    if (!this.revealed) {
+      this.revealed = true;
+      document.getElementById('deal-card-front').style.display = 'none';
+      document.getElementById('deal-card-back').style.display = 'flex';
+      Sounds.play('reveal');
+    } else {
+      this.revealed = false;
+      document.getElementById('deal-card-front').style.display = 'flex';
+      document.getElementById('deal-card-back').style.display = 'none';
+      document.getElementById('btn-got-it').disabled = false;
+      Sounds.play('hide');
+    }
+  },
+
+  _next: function() {
+    this.currentIndex++;
+    if (this.currentIndex >= this.dealQueue.length) {
+      App.showScreen('discuss');
+      DiscussScreen.render();
+    } else {
+      this._showCurrentPlayer();
+    }
+  }
+};
 var DiscussScreen = { render: function() {}, init: function() {} };
 var VoteScreen = { render: function() {}, init: function() {} };
 var ResultScreen = { render: function() {}, init: function() {} };

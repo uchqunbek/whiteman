@@ -43,8 +43,20 @@
   <button class="btn btn-primary w-full mt-24" id="btn-start-game" data-i18n="startGame" disabled>Start Game</button>
 </section>
     <section id="screen-deal" class="screen">
-      <h1>Deal (placeholder)</h1>
-    </section>
+  <p class="deal-instruction" data-i18n="passPhoneTo">Pass the phone to</p>
+  <h2 class="deal-player-name" id="deal-player-name"></h2>
+  <div class="deal-card" id="deal-card">
+    <div class="deal-card-front" id="deal-card-front">
+      <span data-i18n="tapToReveal">Tap to reveal</span>
+    </div>
+    <div class="deal-card-back" id="deal-card-back" style="display:none;">
+      <p class="deal-word-label" data-i18n="yourWord">Your word:</p>
+      <p class="deal-word" id="deal-word"></p>
+      <p class="deal-hint" data-i18n="tapToHide">Tap to hide</p>
+    </div>
+  </div>
+  <button class="btn btn-success w-full mt-24" id="btn-got-it" data-i18n="gotIt" disabled>Got it!</button>
+</section>
     <section id="screen-discuss" class="screen">
       <h1>Discuss (placeholder)</h1>
     </section>
