@@ -380,3 +380,26 @@ body {
 .vote-card-name { font-size: 14px; font-weight: 700; }
 
 .vote-card.selected .vote-card-name { color: var(--coral); }
+
+/* === Result Screen === */
+#screen-result.result-correct {
+  background: linear-gradient(135deg, var(--green), var(--green-light));
+  color: white;
+}
+
+#screen-result.result-wrong {
+  background: #2d3436;
+  color: #dfe6e9;
+}
+
+#screen-result.result-whiteman-wins {
+  background: linear-gradient(135deg, #2d3436, var(--purple));
+  color: white;
+}
+
+.result-emoji { font-size: 64px; margin-bottom: 12px; }
+.result-title { font-size: 24px; font-weight: 900; }
+.result-subtitle { font-size: 16px; margin-top: 8px; opacity: 0.9; }
+
+#screen-result .btn-primary { background: rgba(255,255,255,0.2); color: white; }
+#screen-result .btn-secondary { background: rgba(255,255,255,0.1); color: white; }

@@ -70,8 +70,14 @@
   <button class="btn btn-danger w-full mt-24" id="btn-eliminate" data-i18n="eliminate" disabled>Eliminate!</button>
 </section>
     <section id="screen-result" class="screen">
-      <h1>Result (placeholder)</h1>
-    </section>
+  <div class="result-emoji" id="result-emoji"></div>
+  <h2 class="result-title" id="result-title"></h2>
+  <p class="result-subtitle" id="result-subtitle"></p>
+  <div class="flex-col gap-12 w-full mt-24">
+    <button class="btn btn-primary" id="btn-next-round" style="display:none;">Next Round</button>
+    <button class="btn btn-secondary" id="btn-to-gameover" style="display:none;">Game Over</button>
+  </div>
+</section>
     <section id="screen-gameover" class="screen">
       <h1>Game Over (placeholder)</h1>
     </section>

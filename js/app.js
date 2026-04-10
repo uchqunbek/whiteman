@@ -293,7 +293,66 @@ var VoteScreen = {
     ResultScreen.show(result);
   }
 };
-var ResultScreen = { render: function() {}, init: function() {} };
+var ResultScreen = {
+  render: function() {},
+
+  init: function() {
+    document.getElementById('btn-next-round').addEventListener('click', function() {
+      Sounds.play('tap');
+      Game.nextRound();
+      App.showScreen('deal');
+      DealScreen.start();
+    });
+    document.getElementById('btn-to-gameover').addEventListener('click', function() {
+      Sounds.play('tap');
+      App.showScreen('gameover');
+      GameOverScreen.render();
+    });
+  },
+
+  show: function(result) {
+    var screen = document.getElementById('screen-result');
+    screen.classList.remove('result-correct', 'result-wrong', 'result-whiteman-wins');
+
+    var emoji = document.getElementById('result-emoji');
+    var title = document.getElementById('result-title');
+    var subtitle = document.getElementById('result-subtitle');
+    var btnNext = document.getElementById('btn-next-round');
+    var btnGameOver = document.getElementById('btn-to-gameover');
+
+    if (result.correct) {
+      screen.classList.add('result-correct');
+      emoji.textContent = '\uD83C\uDF89';
+      title.textContent = I18n.t('foundWhiteman');
+      subtitle.textContent = result.whitemanName + ' ' + I18n.t('wasWhiteman');
+      btnNext.style.display = 'none';
+      btnGameOver.style.display = 'block';
+      btnGameOver.textContent = I18n.t('mainMenu');
+      Sounds.play('victory');
+      Confetti.fire(3000);
+    } else if (result.gameOver) {
+      screen.classList.add('result-whiteman-wins');
+      emoji.textContent = '\uD83D\uDE08';
+      title.textContent = I18n.t('whitemanWins');
+      subtitle.textContent = result.whitemanName + ' ' + I18n.t('wasWhiteman');
+      btnNext.style.display = 'none';
+      btnGameOver.style.display = 'block';
+      btnGameOver.textContent = I18n.t('mainMenu');
+      Sounds.play('evil');
+    } else {
+      screen.classList.add('result-wrong');
+      screen.classList.add('animate-shake');
+      setTimeout(function() { screen.classList.remove('animate-shake'); }, 600);
+      emoji.textContent = '\uD83D\uDE22';
+      title.textContent = I18n.t('wrongGuess');
+      subtitle.textContent = result.eliminatedPlayer + ' ' + I18n.t('wasInnocent');
+      btnNext.style.display = 'block';
+      btnNext.textContent = I18n.t('nextRound');
+      btnGameOver.style.display = 'none';
+      Sounds.play('wrong');
+    }
+  }
+};
 var GameOverScreen = { render: function() {}, init: function() {} };
 var LeaderboardScreen = { render: function() {}, init: function() {} };
 
