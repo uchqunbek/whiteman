@@ -507,8 +507,19 @@ var App = {
     GameOverScreen.init();
     LeaderboardScreen.init();
 
-    WelcomeScreen.render();
-    this.showScreen('welcome');
+    // Check for in-progress game
+    var savedGame = Storage.getCurrentGame();
+    if (savedGame) {
+      var self = this;
+      Game.loadWords().then(function() {
+        Game.resume();
+        self.showScreen('discuss');
+        DiscussScreen.render();
+      });
+    } else {
+      WelcomeScreen.render();
+      this.showScreen('welcome');
+    }
   },
 
   showScreen: function(name) {
