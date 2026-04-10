@@ -352,3 +352,31 @@ body {
   font-size: 14px;
   font-weight: 600;
 }
+
+/* === Vote Screen === */
+.vote-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+}
+
+.vote-card {
+  background: white;
+  padding: 16px 12px;
+  border-radius: var(--radius-sm);
+  border: 3px solid var(--gray-light);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.1s;
+}
+
+.vote-card:active { transform: scale(0.96); }
+.vote-card.selected { border-color: var(--coral); }
+
+.vote-card-emoji { font-size: 32px; margin-bottom: 6px; }
+
+.vote-card-name { font-size: 14px; font-weight: 700; }
+
+.vote-card.selected .vote-card-name { color: var(--coral); }

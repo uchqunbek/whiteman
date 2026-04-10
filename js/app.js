@@ -231,7 +231,68 @@ var DiscussScreen = {
     });
   }
 };
-var VoteScreen = { render: function() {}, init: function() {} };
+var VoteScreen = {
+  selectedIndex: null,
+  emojis: ['\uD83D\uDE00', '\uD83D\uDE0E', '\uD83E\uDD20', '\uD83D\uDE0A', '\uD83E\uDD29', '\uD83D\uDE04', '\uD83E\uDD73', '\uD83D\uDE42', '\uD83D\uDE3A', '\uD83E\uDD17'],
+
+  render: function() {
+    document.querySelectorAll('#screen-vote [data-i18n]').forEach(function(el) {
+      el.textContent = I18n.t(el.dataset.i18n);
+    });
+    this.selectedIndex = null;
+    document.getElementById('btn-eliminate').disabled = true;
+
+    var grid = document.getElementById('vote-grid');
+    grid.textContent = '';
+    var self = this;
+    var activeIndices = Game.getActivePlayerIndices();
+    activeIndices.forEach(function(playerIdx) {
+      var card = document.createElement('div');
+      card.className = 'vote-card';
+      card.dataset.playerIndex = playerIdx;
+
+      var emojiDiv = document.createElement('div');
+      emojiDiv.className = 'vote-card-emoji';
+      emojiDiv.textContent = self.emojis[playerIdx % self.emojis.length];
+
+      var nameDiv = document.createElement('div');
+      nameDiv.className = 'vote-card-name';
+      nameDiv.textContent = Game.state.players[playerIdx];
+
+      card.appendChild(emojiDiv);
+      card.appendChild(nameDiv);
+
+      card.addEventListener('click', function() {
+        Sounds.play('tap');
+        self._select(playerIdx);
+      });
+      grid.appendChild(card);
+    });
+  },
+
+  init: function() {
+    var self = this;
+    document.getElementById('btn-eliminate').addEventListener('click', function() {
+      if (self.selectedIndex === null) return;
+      Sounds.play('vote');
+      self._eliminate();
+    });
+  },
+
+  _select: function(playerIndex) {
+    this.selectedIndex = playerIndex;
+    document.querySelectorAll('.vote-card').forEach(function(c) { c.classList.remove('selected'); });
+    var selected = document.querySelector('.vote-card[data-player-index="' + playerIndex + '"]');
+    if (selected) selected.classList.add('selected');
+    document.getElementById('btn-eliminate').disabled = false;
+  },
+
+  _eliminate: function() {
+    var result = Game.eliminate(this.selectedIndex);
+    App.showScreen('result');
+    ResultScreen.show(result);
+  }
+};
 var ResultScreen = { render: function() {}, init: function() {} };
 var GameOverScreen = { render: function() {}, init: function() {} };
 var LeaderboardScreen = { render: function() {}, init: function() {} };
