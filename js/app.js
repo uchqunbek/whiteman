@@ -208,7 +208,29 @@ var DealScreen = {
     }
   }
 };
-var DiscussScreen = { render: function() {}, init: function() {} };
+var DiscussScreen = {
+  render: function() {
+    document.querySelectorAll('#screen-discuss [data-i18n]').forEach(function(el) {
+      el.textContent = I18n.t(el.dataset.i18n);
+    });
+    var container = document.getElementById('discuss-players');
+    container.textContent = '';
+    Game.getActivePlayers().forEach(function(name) {
+      var chip = document.createElement('span');
+      chip.className = 'discuss-chip';
+      chip.textContent = name;
+      container.appendChild(chip);
+    });
+  },
+
+  init: function() {
+    document.getElementById('btn-done-discuss').addEventListener('click', function() {
+      Sounds.play('tap');
+      App.showScreen('vote');
+      VoteScreen.render();
+    });
+  }
+};
 var VoteScreen = { render: function() {}, init: function() {} };
 var ResultScreen = { render: function() {}, init: function() {} };
 var GameOverScreen = { render: function() {}, init: function() {} };

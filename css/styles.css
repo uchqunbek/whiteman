@@ -324,3 +324,31 @@ body {
 
 #screen-deal .btn-success { background: rgba(255,255,255,0.2); color: white; }
 #screen-deal .btn-success:disabled { opacity: 0.3; }
+
+/* === Discuss Screen === */
+#screen-discuss { background: var(--warm-yellow); }
+
+.discuss-icon { font-size: 56px; margin-bottom: 12px; }
+
+.discuss-instruction {
+  font-size: 14px;
+  color: #636e72;
+  margin-top: 8px;
+  max-width: 280px;
+}
+
+.discuss-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 320px;
+}
+
+.discuss-chip {
+  background: white;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 600;
+}
