@@ -453,7 +453,48 @@ body {
 .lb-row:nth-child(2) .lb-rank { color: #95a5a6; }
 .lb-row:nth-child(3) .lb-rank { color: #e17055; }
 
-.lb-name { flex: 1; font-weight: 600; }
+.lb-info { flex: 1; display: flex; flex-direction: column; gap: 2px; }
+.lb-top { display: flex; justify-content: space-between; align-items: center; }
+.lb-name { font-weight: 600; }
 .lb-score { font-weight: 700; color: var(--teal); }
+.lb-sub { font-size: 11px; color: #b2bec3; }
 
 .lb-empty { color: #b2bec3; font-size: 14px; padding: 32px 0; }
+
+/* === Rules Screen === */
+.rules-list { width: 100%; max-width: 340px; display: flex; flex-direction: column; gap: 12px; }
+
+.rule-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+}
+
+.rule-num {
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--purple);
+  color: white;
+  font-weight: 900;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.rule-text { font-size: 14px; line-height: 1.5; color: #636e72; margin: 0; padding-top: 4px; }
+
+/* === Outline Button === */
+.btn-outline {
+  background: transparent;
+  border: 2px solid rgba(0,0,0,0.15);
+  color: var(--dark);
+}
+
+#screen-deal .btn-outline {
+  border-color: rgba(255,255,255,0.4);
+  color: rgba(255,255,255,0.85);
+}

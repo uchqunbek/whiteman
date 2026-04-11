@@ -19,6 +19,11 @@ var WelcomeScreen = {
       App.showScreen('leaderboard');
       LeaderboardScreen.render();
     });
+    document.getElementById('btn-how-to-play').addEventListener('click', function() {
+      Sounds.play('tap');
+      App.showScreen('rules');
+      RulesScreen.render();
+    });
   }
 };
 
@@ -163,6 +168,11 @@ var DealScreen = {
       Sounds.play('confirm');
       self._next();
     });
+    document.getElementById('btn-change-word').addEventListener('click', function() {
+      Sounds.play('tap');
+      Game.changeWord();
+      self.start();
+    });
   },
 
   start: function() {
@@ -188,12 +198,12 @@ var DealScreen = {
       this.revealed = true;
       document.getElementById('deal-card-front').style.display = 'none';
       document.getElementById('deal-card-back').style.display = 'flex';
+      document.getElementById('btn-got-it').disabled = false;
       Sounds.play('reveal');
     } else {
       this.revealed = false;
       document.getElementById('deal-card-front').style.display = 'flex';
       document.getElementById('deal-card-back').style.display = 'none';
-      document.getElementById('btn-got-it').disabled = false;
       Sounds.play('hide');
     }
   },
@@ -300,8 +310,8 @@ var ResultScreen = {
     document.getElementById('btn-next-round').addEventListener('click', function() {
       Sounds.play('tap');
       Game.nextRound();
-      App.showScreen('deal');
-      DealScreen.start();
+      App.showScreen('discuss');
+      DiscussScreen.render();
     });
     document.getElementById('btn-to-gameover').addEventListener('click', function() {
       Sounds.play('tap');
@@ -454,6 +464,9 @@ var LeaderboardScreen = {
       rank.className = 'lb-rank';
       rank.textContent = i + 1;
 
+      var info = document.createElement('div');
+      info.className = 'lb-info';
+
       var name = document.createElement('span');
       name.className = 'lb-name';
       name.textContent = entry.name;
@@ -462,9 +475,23 @@ var LeaderboardScreen = {
       score.className = 'lb-score';
       score.textContent = entry.score + ' ' + I18n.t('points');
 
+      var games = entry.games || 0;
+      var wins = entry.wins || 0;
+      var winPct = games > 0 ? Math.round(wins / games * 100) : 0;
+      var sub = document.createElement('span');
+      sub.className = 'lb-sub';
+      sub.textContent = games + ' ' + I18n.t('gamesPlayed') + ' · ' + winPct + '% ' + I18n.t('winRate');
+
+      var top = document.createElement('div');
+      top.className = 'lb-top';
+      top.appendChild(name);
+      top.appendChild(score);
+
+      info.appendChild(top);
+      info.appendChild(sub);
+
       row.appendChild(rank);
-      row.appendChild(name);
-      row.appendChild(score);
+      row.appendChild(info);
       list.appendChild(row);
     });
   },
@@ -478,6 +505,37 @@ var LeaderboardScreen = {
       }
     });
     document.getElementById('btn-lb-back').addEventListener('click', function() {
+      Sounds.play('tap');
+      App.showScreen('welcome');
+      WelcomeScreen.render();
+    });
+  }
+};
+
+var RulesScreen = {
+  render: function() {
+    document.querySelectorAll('#screen-rules [data-i18n]').forEach(function(el) {
+      el.textContent = I18n.t(el.dataset.i18n);
+    });
+    var list = document.getElementById('rules-list');
+    list.textContent = '';
+    var rules = I18n.t('rulesList');
+    rules.forEach(function(rule, i) {
+      var item = document.createElement('div');
+      item.className = 'rule-item';
+      var num = document.createElement('span');
+      num.className = 'rule-num';
+      num.textContent = i + 1;
+      var text = document.createElement('p');
+      text.className = 'rule-text';
+      text.textContent = rule;
+      item.appendChild(num);
+      item.appendChild(text);
+      list.appendChild(item);
+    });
+  },
+  init: function() {
+    document.getElementById('btn-rules-back').addEventListener('click', function() {
       Sounds.play('tap');
       App.showScreen('welcome');
       WelcomeScreen.render();
@@ -506,6 +564,7 @@ var App = {
     ResultScreen.init();
     GameOverScreen.init();
     LeaderboardScreen.init();
+    RulesScreen.init();
 
     // Check for in-progress game
     var savedGame = Storage.getCurrentGame();

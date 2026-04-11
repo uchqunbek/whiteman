@@ -65,6 +65,16 @@ const Game = {
     });
   },
 
+  changeWord() {
+    var newWordPair = this._pickWord(this.state.usedWordIndices);
+    this.state.usedWordIndices.push(this.words.indexOf(newWordPair));
+    this.state.normalWord = newWordPair.normal;
+    this.state.whitemanWord = newWordPair.whiteman;
+    this.state.whitemanIndex = Math.floor(Math.random() * this.state.players.length);
+    this.state.dealOrder = this._shuffleOrder(this.state.players.length);
+    Storage.saveCurrentGame(this.state);
+  },
+
   eliminate(playerIndex) {
     var isWhiteman = playerIndex === this.state.whitemanIndex;
     var self = this;
@@ -114,7 +124,8 @@ const Game = {
   },
 
   endGame() {
-    Storage.updateLeaderboard(this.state.scores);
+    var teamWon = !this.isWhitemanWinner();
+    Storage.updateLeaderboard(this.state.players, this.state.whitemanIndex, this.state.scores, teamWon);
     Storage.clearCurrentGame();
   },
 

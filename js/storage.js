@@ -29,16 +29,20 @@ const Storage = {
   getLeaderboard() {
     return JSON.parse(localStorage.getItem(this.KEYS.LEADERBOARD) || '[]');
   },
-  updateLeaderboard(scores) {
+  updateLeaderboard(players, whitemanIndex, scores, teamWon) {
     const board = this.getLeaderboard();
-    for (const [name, points] of Object.entries(scores)) {
-      const entry = board.find(e => e.name === name);
-      if (entry) {
-        entry.score += points;
-      } else {
-        board.push({ name, score: points });
+    players.forEach(function(name, i) {
+      var entry = board.find(e => e.name === name);
+      if (!entry) {
+        entry = { name, score: 0, games: 0, wins: 0 };
+        board.push(entry);
       }
-    }
+      entry.score = (entry.score || 0) + (scores[name] || 0);
+      entry.games = (entry.games || 0) + 1;
+      var isWhiteman = (i === whitemanIndex);
+      var won = isWhiteman ? !teamWon : teamWon;
+      if (won) entry.wins = (entry.wins || 0) + 1;
+    });
     board.sort((a, b) => b.score - a.score);
     localStorage.setItem(this.KEYS.LEADERBOARD, JSON.stringify(board));
   },

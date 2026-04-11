@@ -47,6 +47,19 @@ const I18n = {
       score: 'Score',
       player: 'Player',
       points: 'pts',
+      changeWord: 'Another word',
+      howToPlay: 'How to Play',
+      rulesTitle: 'How to Play',
+      gamesPlayed: 'games',
+      winRate: 'win rate',
+      rulesList: [
+        'Everyone gets the same secret word — except one player, the Whiteman, who gets a similar but different word.',
+        'Going around, each player says ONE word that describes their secret word.',
+        'After everyone speaks, vote to eliminate the person you think is the Whiteman.',
+        'If you eliminate the Whiteman — the team wins!',
+        'If you eliminate an innocent player, they\'re out. Keep discussing and voting.',
+        'The Whiteman wins if only 2 players remain and the Whiteman is still in.'
+      ],
     },
     uz: {
       gameTitle: 'WHITEMAN',
@@ -93,6 +106,19 @@ const I18n = {
       score: 'Ball',
       player: "O'yinchi",
       points: 'ball',
+      changeWord: "Boshqa so'z",
+      howToPlay: "Qoidalar",
+      rulesTitle: "Qoidalar",
+      gamesPlayed: "o'yin",
+      winRate: "g'alaba",
+      rulesList: [
+        "Barcha o'yinchilar bir xil maxfiy so'z oladi — faqat Whiteman boshqa, o'xshash so'z oladi.",
+        "Har bir o'yinchi o'z so'zini tavsiflaydigan BITTA so'z aytadi.",
+        "Hammasi gapirganidan so'ng, Whiteman deb o'ylagan o'yinchini chiqarib yuborish uchun ovoz bering.",
+        "Agar Whiteman ni topsangiz — jamoa g'alaba qiladi!",
+        "Agar begunoh o'yinchini chiqarsangiz, u o'yindan chiqadi. Muhokama va ovoz berishni davom ettiring.",
+        "Whiteman g'alaba qiladi, agar faqat 2 o'yinchi qolsa va Whiteman hali ham o'yinda bo'lsa."
+      ],
     },
     ru: {
       gameTitle: 'WHITEMAN',
@@ -139,6 +165,19 @@ const I18n = {
       score: 'Счёт',
       player: 'Игрок',
       points: 'очк.',
+      changeWord: 'Другое слово',
+      howToPlay: 'Правила',
+      rulesTitle: 'Правила игры',
+      gamesPlayed: 'игр',
+      winRate: 'побед',
+      rulesList: [
+        'Все игроки получают одинаковое тайное слово — кроме одного, Whiteman, который получает похожее, но другое слово.',
+        'По кругу каждый игрок говорит ОДНО слово, описывающее его тайное слово.',
+        'После того как все высказались, проголосуйте за исключение того, кого считаете Whiteman.',
+        'Если вы исключили Whiteman — команда побеждает!',
+        'Если исключили невиновного — он выбывает. Продолжайте обсуждение и голосование.',
+        'Whiteman побеждает, если остались только 2 игрока, и Whiteman всё ещё в игре.'
+      ],
     }
   },
 
