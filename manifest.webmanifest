@@ -1,0 +1,20 @@
+{
+  "id": "./",
+  "name": "Whiteman",
+  "short_name": "Whiteman",
+  "description": "A social deduction word game for friends and family.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#171329",
+  "theme_color": "#171329",
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -25,9 +25,18 @@ python3 -m http.server
 
 Then open `http://localhost:3000` (or whatever port) on your phone.
 
+## Install on a Phone
+
+Whiteman is a Progressive Web App. Open the GitHub Pages URL in your browser while online and install it from the browser menu:
+
+- **Android (Chrome):** tap **Install app** or **Add to Home screen**.
+- **iPhone/iPad (Safari):** tap **Share**, then **Add to Home Screen**.
+
+After the first visit has finished loading, the app files are cached and the installed app can be opened offline. The service worker updates its cache when a new version is deployed. GitHub Pages serves over HTTPS, which is required for installation and offline support.
+
 ## Stack
 
-Vanilla HTML/CSS/JS. No frameworks, no backend, no dependencies. State lives in `localStorage`. Works offline after first load.
+Vanilla HTML/CSS/JS. No frameworks, no backend, no dependencies. State lives in `localStorage`.
 
 ## Languages
 
