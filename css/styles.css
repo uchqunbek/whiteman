@@ -426,7 +426,7 @@ body {
 .score-row-points { color: var(--teal); font-weight: 700; }
 
 .score-row.whiteman-row { background: rgba(108, 92, 231, 0.1); }
-.score-row.whiteman-row .score-row-name::after { content: ' \uD83C\uDFAD'; }
+.score-row.whiteman-row .score-row-name::after { content: ' \1F3AD'; }
 
 /* === Leaderboard Screen === */
 .leaderboard-list { width: 100%; max-width: 320px; }
