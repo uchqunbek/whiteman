@@ -1,4 +1,4 @@
-var CACHE_NAME = 'whiteman-v1';
+var CACHE_NAME = 'whiteman-v2';
 var APP_FILES = [
   './',
   './index.html',
@@ -21,7 +21,13 @@ var APP_FILES = [
 self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(function(cache) { return cache.addAll(APP_FILES); })
+      .then(function(cache) {
+        return Promise.all(APP_FILES.map(function(path) {
+          return cache.add(path).catch(function(error) {
+            console.error('Could not cache ' + path + ':', error);
+          });
+        }));
+      })
       .then(function() { return self.skipWaiting(); })
   );
 });
@@ -41,8 +47,11 @@ self.addEventListener('fetch', function(event) {
   if (request.method !== 'GET' || new URL(request.url).origin !== self.location.origin) return;
 
   if (request.mode === 'navigate') {
-    event.respondWith(fetch(request).catch(function() {
-      return caches.match('./index.html');
+    event.respondWith(caches.match(request).then(function(cachedPage) {
+      if (cachedPage) return cachedPage;
+      return caches.match('./index.html').then(function(cachedHome) {
+        return cachedHome || fetch(request);
+      });
     }));
     return;
   }
